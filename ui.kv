@@ -10,8 +10,16 @@
                 pos: self.pos
                 size:self.size
         orientation:"vertical"
-        BoxLayout:
+        AnchorLayout:
+            padding:[50,50,50,50]
             size_hint:(0.3,1)
+            anchor_x :'left'
+            anchor_y :'top'
+            ImageButton:
+                size_hint:(None,None)
+                size:(50,50)
+                source:"images/app/back.png"
+                on_release:app.qrscreen_to_mainscreen()
         AnchorLayout:
             anchor_x :'center'
             anchor_y :'center'

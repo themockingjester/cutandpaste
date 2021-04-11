@@ -1,5 +1,6 @@
 from datetime import time
-
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
 from kivy.uix.behaviors import DragBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -9,8 +10,13 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 from qrmaker import QrMake
 from image_processing import ImageProcessing
+
+class ImageButton(ButtonBehavior, Image):
+    pass
 class CameraWindow(BoxLayout):
     camera = ObjectProperty(None)
+
+
 class MainWindow(BoxLayout):
     pass
 class ShowQr(BoxLayout):
@@ -52,13 +58,14 @@ class uiApp(MDApp):
         self.screen_manager.current = 'camerascreen'
     def camerascreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'left'
-        self.screen_manager.current = 'mainscreen'
+        self.screen_manager.current = 'builderscreen'
     def mainscreen_to_qrscreen(self):
+        obj = QrMake()
+        obj.make("7879.56", '5645')
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrscreen'
-        obj = QrMake()
-        obj.make("7879.56",'5645')
+
     def qrscreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'up'
-        self.screen_manager.current = 'mainscreen'
+        self.screen_manager.current = 'builderscreen'
 uiApp().run()
