@@ -7,6 +7,7 @@ from kivy.utils import rgba
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+from qrmaker import QrMake
 from image_processing import ImageProcessing
 class CameraWindow(BoxLayout):
     camera = ObjectProperty(None)
@@ -55,6 +56,8 @@ class uiApp(MDApp):
     def mainscreen_to_qrscreen(self):
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrscreen'
+        obj = QrMake()
+        obj.make("7879.56",'5645')
     def qrscreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'up'
         self.screen_manager.current = 'mainscreen'

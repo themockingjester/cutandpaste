@@ -12,9 +12,15 @@
         orientation:"vertical"
         BoxLayout:
             size_hint:(0.3,1)
-        BoxLayout:
+        AnchorLayout:
+            anchor_x :'center'
+            anchor_y :'center'
             Image:
-                source:"temp.png"
+                size_hint:(None,None)
+                size:(200,200)
+
+
+                source:"qr.png"
         BoxLayout:
             size_hint:(0.3,1)
 
