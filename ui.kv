@@ -1,0 +1,112 @@
+#:import C kivy.utils.get_color_from_hex
+<ShowQr>:
+    BoxLayout:
+        canvas.before:
+            Color:
+
+                rgba : C("#ffe268")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
+        orientation:"vertical"
+        BoxLayout:
+            size_hint:(0.3,1)
+        BoxLayout:
+            Image:
+                source:"temp.png"
+        BoxLayout:
+            size_hint:(0.3,1)
+
+<CameraWindow>:
+    camera:camera
+    BoxLayout:
+        orientation: 'vertical'
+        Camera:
+            id: camera
+            
+            play: False
+        ToggleButton:
+            text: 'Play'
+            on_press: camera.play = not camera.play
+            size_hint_y: None
+            height: '48dp'
+        Button:
+            text: 'Capture'
+            size_hint_y: None
+            height: '48dp'
+            on_press: app.capture()
+<MainWindow>:
+    BoxLayout:
+        size_hint:(0.05,1)
+        canvas.before:
+            Color:
+
+                rgba : C("#ffe268")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
+    BoxLayout:
+        orientation:"vertical"
+        BoxLayout:
+            orientation:"vertical"
+            size_hint:(1,0.2)
+
+            canvas.before:
+                Color:
+
+                    rgba : C("#ffe268")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+                Rectangle:
+
+                    pos: self.pos
+                    size:self.size
+            BoxLayout:
+            BoxLayout:
+                spacing:25
+                MDFloatingActionButton:
+                    icon: "qrcode-scan"
+                    md_bg_color: C("#5d8ebe4")
+                    on_release:app.mainscreen_to_qrscreen()
+                MDFloatingActionButton:
+                    icon: "camera"
+                    on_release: app.mainscreen_to_camerascreen()
+                    md_bg_color: C("#5d8ebe4")
+                BoxLayout:
+                MDIconButton:
+                    icon: "check"
+
+            BoxLayout:
+        BoxLayout:
+            canvas.before:
+                Color:
+
+                    rgba : C("#364547")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+                Rectangle:
+
+                    pos: self.pos
+                    size:self.size
+
+            Label:
+                text:"hi"
+
+        BoxLayout:
+            size_hint:(1,0.05)
+            canvas.before:
+                Color:
+
+                    rgba : C("#ffe268")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+                Rectangle:
+
+                    pos: self.pos
+                    size:self.size
+    BoxLayout:
+        size_hint:(0.05,1)
+        canvas.before:
+            Color:
+
+                rgba : C("#ffe268")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
