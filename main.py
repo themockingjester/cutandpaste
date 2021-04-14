@@ -23,6 +23,8 @@ class MainWindow(BoxLayout):
     pass
 class ShowQr(BoxLayout):
     qr = ObjectProperty(None)
+class Qrreader(BoxLayout):
+    zbarcam=ObjectProperty(None)
 class uiApp(MDApp):
     portused={}
     def build(self):
@@ -41,6 +43,11 @@ class uiApp(MDApp):
         self.qrscreen = ShowQr()
         screen = Screen(name='qrscreen')
         screen.add_widget(self.qrscreen)
+        self.screen_manager.add_widget(screen)
+
+        self.qrreasderscreen = Qrreader()
+        screen = Screen(name='qrreasderscreen')
+        screen.add_widget(self.qrreasderscreen)
         self.screen_manager.add_widget(screen)
 
         return self.screen_manager
@@ -85,6 +92,18 @@ class uiApp(MDApp):
         obj1.server(ip,port)
 
     def qrscreen_to_mainscreen(self):
+        self.screen_manager.transition.direction = 'up'
+        self.screen_manager.current = 'builderscreen'
+    def mainscreen_to_receivescreen(self):
+
+        self.screen_manager.transition.direction = 'down'
+        self.screen_manager.current = 'qrreasderscreen'
+    def getrecievedqr(self):
+        k = ', '.join([str(symbol.data) for symbol in self.qrreasderscreen.zbarcam.symbols])
+        print(k)
+        print("ok")
+    def receivescreen_to_mainscreen(self):
+        self.getrecievedqr()
         self.screen_manager.transition.direction = 'up'
         self.screen_manager.current = 'builderscreen'
 uiApp().run()

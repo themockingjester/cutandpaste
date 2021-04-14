@@ -1,4 +1,52 @@
 #:import C kivy.utils.get_color_from_hex
+#:import ZBarCam kivy_garden.zbarcam.ZBarCam
+#:import ZBarSymbol pyzbar.pyzbar.ZBarSymbol
+<Qrreader>:
+    zbarcam:zbarcam
+    BoxLayout:
+        canvas.before:
+            Color:
+
+                rgba : C("#ffe268")                 #app.left_tray_color                                              #app.theme_cls.bg_normal
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
+        orientation:"vertical"
+        AnchorLayout:
+            padding:[50,50,50,50]
+            size_hint:(0.3,1)
+            anchor_x :'left'
+            anchor_y :'top'
+            ImageButton:
+
+                size_hint:(None,None)
+                size:(50,50)
+                source:"images/app/back.png"
+                on_release:app.receivescreen_to_mainscreen()
+        AnchorLayout:
+            anchor_x :'center'
+            anchor_y :'center'
+            BoxLayout:
+                orientation:"vertical"
+
+                ZBarCam:
+                    id: zbarcam
+                    size: root.width,root.height
+                    size_hint:(None,None)
+                    allow_stretch: True
+                    aspect_ratio: False
+                    pos: (0,root.height/68)
+                    # optional, by default checks all types
+                    code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
+
+                Label:
+                    id:  qroutput
+                    #size_hint: None, None
+                    size: self.texture_size[0], 50
+                    opacity:1
+                    text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+
 <ShowQr>:
     qr:qr
     BoxLayout:
@@ -90,6 +138,10 @@
                     on_release: app.mainscreen_to_camerascreen()
                     md_bg_color: C("#5d8ebe4")
                 BoxLayout:
+                MDFloatingActionButton:
+                    icon: "access-point"
+                    on_release: app.mainscreen_to_receivescreen()
+                    md_bg_color: C("#5d8ebe4")
                 MDIconButton:
                     icon: "check"
 

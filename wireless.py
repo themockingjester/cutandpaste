@@ -9,6 +9,12 @@ class WirelessConnection():
         ip = s.getsockname()[0]
         s.close()
         return ip
+    def client(self,ip,port):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            s.connect((ip, int(port)))
+        except:
+            s.close()
     def server(self,ip,port):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # self.sendscreen.ip.text, int(self.sendscreen.port.text)
