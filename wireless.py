@@ -9,6 +9,20 @@ class WirelessConnection():
         ip = s.getsockname()[0]
         s.close()
         return ip
+    def server(self,ip,port):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # self.sendscreen.ip.text, int(self.sendscreen.port.text)
+        try:
+            s.bind((ip, int(port)))
+
+        except:
+            print('something is incorrect with your data')
+            s.close()
+
+            return 0
+        s.listen(1)
+
+        print('working')
     def connect(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 

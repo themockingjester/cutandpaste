@@ -1,4 +1,5 @@
 from datetime import time
+import random
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
@@ -23,6 +24,7 @@ class MainWindow(BoxLayout):
 class ShowQr(BoxLayout):
     qr = ObjectProperty(None)
 class uiApp(MDApp):
+    portused={}
     def build(self):
         self.screen_manager = ScreenManager()
 
@@ -54,6 +56,14 @@ class uiApp(MDApp):
         print("Captured")
         obj = ImageProcessing()
         obj.removeBackground()
+    def portNumberGenerator(self):
+        port = None
+        while True:
+            port = random.randrange(30000, 50000, 1)
+            if port not in uiApp.portused:
+                uiApp.portused[port] = True
+                break
+        return port
     def mainscreen_to_camerascreen(self):
         self.screen_manager.transition.direction = 'right'
         self.screen_manager.current = 'camerascreen'
@@ -61,13 +71,18 @@ class uiApp(MDApp):
         self.screen_manager.transition.direction = 'left'
         self.screen_manager.current = 'builderscreen'
     def mainscreen_to_qrscreen(self):
+        try:
+            self.qrscreen.qr.reload()
+        except:
+            print("can't refresh qr")
         obj1 = WirelessConnection()
         ip = obj1.ipfinder()
-
+        port = self.portNumberGenerator()
         obj2 = QrMake()
-        obj2.make(str(ip))
+        obj2.make(ip,port)
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrscreen'
+        obj1.server(ip,port)
 
     def qrscreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'up'
