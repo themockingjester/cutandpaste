@@ -8,6 +8,7 @@ from kivy.utils import rgba
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+from wireless import WirelessConnection
 from qrmaker import QrMake
 from image_processing import ImageProcessing
 
@@ -60,8 +61,11 @@ class uiApp(MDApp):
         self.screen_manager.transition.direction = 'left'
         self.screen_manager.current = 'builderscreen'
     def mainscreen_to_qrscreen(self):
-        obj = QrMake()
-        obj.make("7879.56", '5645')
+        obj1 = WirelessConnection()
+        ip = obj1.ipfinder()
+
+        obj2 = QrMake()
+        obj2.make(str(ip))
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrscreen'
 

@@ -2,6 +2,13 @@ import socket
 class WirelessConnection():
     def __init__(self):
         pass
+    def ipfinder(self):
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
     def connect(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
