@@ -30,22 +30,27 @@
             BoxLayout:
                 orientation:"vertical"
 
-                ZBarCam:
-                    id: zbarcam
-                    size: root.width,root.height
-                    size_hint:(None,None)
-                    allow_stretch: True
-                    aspect_ratio: False
-                    pos: (0,root.height/68)
-                    # optional, by default checks all types
-                    code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
 
-                Label:
-                    id:  qroutput
-                    #size_hint: None, None
-                    size: self.texture_size[0], 50
-                    opacity:1
-                    text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+
+                FloatLayout:
+                    ZBarCam:
+                        id: zbarcam
+                        size: root.width,root.height
+                        size_hint:(None,None)
+                        allow_stretch: True
+                        aspect_ratio: False
+
+                        # optional, by default checks all types
+                        code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
+                    Label:
+                        id:  qroutput
+                        #size_hint: None, None
+                        size: self.texture_size[0], 50
+                        opacity:1
+                        pos: (50,root.height/2)
+                        markup:True
+                        text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+
 
 <ShowQr>:
     qr:qr

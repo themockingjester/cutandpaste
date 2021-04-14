@@ -100,7 +100,7 @@ class uiApp(MDApp):
         self.screen_manager.current = 'qrreasderscreen'
     def getrecievedqr(self):
         k = ', '.join([str(symbol.data) for symbol in self.qrreasderscreen.zbarcam.symbols])
-        print(k)
+        print(k.encode('utf-8'))
         print("ok")
     def receivescreen_to_mainscreen(self):
         self.getrecievedqr()
