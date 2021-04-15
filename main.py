@@ -1,5 +1,8 @@
 from datetime import time
-import random
+import time
+
+import random,threading
+from kivy.clock import Clock
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
@@ -25,6 +28,7 @@ class ShowQr(BoxLayout):
     qr = ObjectProperty(None)
 class Qrreader(BoxLayout):
     zbarcam=ObjectProperty(None)
+    qroutput=ObjectProperty(None)
 class uiApp(MDApp):
     portused={}
     def build(self):
@@ -94,16 +98,31 @@ class uiApp(MDApp):
     def qrscreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'up'
         self.screen_manager.current = 'builderscreen'
+
+    def qrcontinuosreader(self,dt):
+        if len(self.qrreasderscreen.qroutput.text)>8 and '@@@' in self.qrreasderscreen.qroutput.text:
+            data = str(self.qrreasderscreen.qroutput.text)
+            data = data.replace("b'","")
+            data = data.replace("'","")
+            data = data.split("@@@")
+            ip = data[0]
+            port = data[1]
+            self.receivescreen_to_mainscreen()
+        else:
+
+            Clock.schedule_once(self.qrcontinuosreader, 0.5)
+
+
+
+
     def mainscreen_to_receivescreen(self):
 
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrreasderscreen'
-    def getrecievedqr(self):
-        k = ', '.join([str(symbol.data) for symbol in self.qrreasderscreen.zbarcam.symbols])
-        print(k.encode('utf-8'))
-        print("ok")
+        Clock.schedule_once(self.qrcontinuosreader, 0.5)
+
     def receivescreen_to_mainscreen(self):
-        self.getrecievedqr()
+
         self.screen_manager.transition.direction = 'up'
         self.screen_manager.current = 'builderscreen'
 uiApp().run()
