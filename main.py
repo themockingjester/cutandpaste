@@ -93,7 +93,7 @@ class uiApp(MDApp):
         obj2.make(ip,port)
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrscreen'
-        obj1.server(ip,port)
+        obj1.client(ip,port)
 
     def qrscreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'up'
@@ -107,6 +107,8 @@ class uiApp(MDApp):
             data = data.split("@@@")
             ip = data[0]
             port = data[1]
+            obj1 = WirelessConnection()
+            obj1.client(ip,port)
             self.receivescreen_to_mainscreen()
         else:
 
