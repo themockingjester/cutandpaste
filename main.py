@@ -87,18 +87,26 @@ class uiApp(MDApp):
         except:
             print("can't refresh qr")
         obj1 = WirelessConnection()
+
         ip = obj1.ipfinder()
         port = self.portNumberGenerator()
         obj2 = QrMake()
         obj2.make(ip,port)
         self.screen_manager.transition.direction = 'down'
         self.screen_manager.current = 'qrscreen'
-        obj1.client(ip,port)
+        thread = threading.Thread(target=self.serverthread,args=(ip,port))
+        thread.start()
 
+    def serverthread(self,ip,port):
+        obj1 = WirelessConnection()
+        obj1.server(ip, port)
     def qrscreen_to_mainscreen(self):
         self.screen_manager.transition.direction = 'up'
         self.screen_manager.current = 'builderscreen'
+    def clientthread(self,ip,port):
 
+        obj1 = WirelessConnection()
+        obj1.client(ip,port)
     def qrcontinuosreader(self,dt):
         if len(self.qrreasderscreen.qroutput.text)>8 and '@@@' in self.qrreasderscreen.qroutput.text:
             data = str(self.qrreasderscreen.qroutput.text)
@@ -107,8 +115,10 @@ class uiApp(MDApp):
             data = data.split("@@@")
             ip = data[0]
             port = data[1]
-            obj1 = WirelessConnection()
-            obj1.client(ip,port)
+            thread = threading.Thread(target=self.clientthread,args=(ip,port))
+            thread.start()
+            print(ip)
+
             self.receivescreen_to_mainscreen()
         else:
 

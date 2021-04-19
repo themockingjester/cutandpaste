@@ -11,13 +11,14 @@ class WirelessConnection():
         s.close()
         return ip
     def client(self,ip,port):
+        print('ok')
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        try:
-            s.connect((ip, int(port)))
-            toast('connected')
-        except:
-            s.close()
+        print('j')
 
+        s.connect((ip, int(port)))
+        toast('connected')
+
+        print("not connected")
     def server(self,ip,port):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # self.sendscreen.ip.text, int(self.sendscreen.port.text)
