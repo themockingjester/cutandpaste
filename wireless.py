@@ -17,8 +17,12 @@ class WirelessConnection():
 
         s.connect((ip, int(port)))
         toast('connected')
+        with open('new.png', 'wb') as f:
+            l = s.recv(999216)
+            while len(l)!=0:
+                f.write(l)
+                l = s.recv(999216)
 
-        print("not connected")
     def server(self,ip,port):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # self.sendscreen.ip.text, int(self.sendscreen.port.text)
@@ -32,7 +36,15 @@ class WirelessConnection():
             return 0
         s.listen(1)
 
+
         toast('working')
         clientsocket, address = s.accept()
 
         toast(f"Connection from {address} has been established.")
+        with open('qr.png', 'rb') as f:
+
+            l = f.read(999216)
+
+            while (l):
+                clientsocket.send(l)
+                l= f.read(999216)
